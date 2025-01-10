@@ -1,45 +1,44 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			listContacts:[] // inicializacion de contactos vacia
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+
+            loadContacts:async() =>{
+				const store = getStore ();
+				try {
+					const response = await fetch ("https://playground.4geeks.com/contact/docs");
+					const data = await response.json();
+					setStore ({listContacts:data}); // actualiza el estado con los contactos obtenidos de la API
+				}catch(error){
+					console.error("Error loading contacts:",error);
+				}
+				
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
+
+			createContact:(contact)=>{
 				const store = getStore();
+				setStore({listContacts: [...store.listContacts, contact] }); // agrega el nuevo contacto a la lista
+				
+			},
+				
+			editContact :(id,updateContact) =>{
+				const store = getStore ();
+				const updateContacts = store.listContacts.map((contact) =>
+				contact.id === id ? {...contact,...updatedContact} : contact
+			);
+			setStore({listContacts : updateContacts}); // actualiza la lista con el contacto editado
+			},
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			deleteContact : (id) =>{
+				const store = getStore();
+				const filteredContacts = store.listContacts.filter(contact => contact.id !==id);
+				setStore({listContacts : filteredContacts}); // elimina el contacto de la lista
 			}
-		}
+		}	
+		};
 	};
-};
+
 
 export default getState;
