@@ -6,9 +6,9 @@ import {Context} from '../store/appContext'
 const ContactCard = ({contact}) =>{
     const {store,actions} =useContext(Context)
 
-    const eliminarContacto = () =>{
-        console.log(contact)
-        actions.deleteContact(contact.id)
+    const handleDelete = () => {
+        console.log("Eliminando contacto:", contact);
+        actions.deleteContact(contact.id);
     };
     
     return(
