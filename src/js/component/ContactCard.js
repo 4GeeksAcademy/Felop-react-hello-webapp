@@ -14,7 +14,7 @@ const ContactCard = ({contact}) =>{
     return(
         
         <li className="list-group-item d-flex justify-content-center" >
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-left">
                 <img className="rounded-circle"
                     src="https://picsum.photos/170/170/"
                     alt="Contact"
@@ -28,7 +28,7 @@ const ContactCard = ({contact}) =>{
                 </div>
             </div>
             <div>
-                <Link to = {`/addContact/${contact.id}`} className="btn btn-link">
+                <Link to = {`/EditContact/${contact.id}`} className="btn btn-link">
                 Edit
                 </Link>
                 <button className="btn btn-link text-danger"

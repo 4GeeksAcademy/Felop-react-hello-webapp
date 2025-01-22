@@ -1,6 +1,3 @@
-import AddContact from "../views/AddContact";
-import Contacts from "../views/Contacts";
-
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -14,20 +11,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const actions = getActions();
 				try {
 					const response = await fetch(`https://playground.4geeks.com/contact/agendas/${store.currentName}/contacts`)
-					if (response.status== 404){
-                    actions.createAgenda()
-					return null;
+					if (response.status == 404) {
+						actions.createAgenda()
+						return null;
 					}
 					if (!response.ok) {
 
 						throw new Error("no sirvio", response)
 					}
 					const data = await response.json();
-					
-					
-					
+
+
+
 					console.log(data)
-					setStore({ ...store, listContacts: data.contacts})
+					setStore({ ...store, listContacts: data.contacts })
 				} catch (error) {
 					console.error(error);
 				}
@@ -82,7 +79,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 					setStore({
-						contacts: [...store.contacts, data],
+						listContacts: [...store.listContacts, data],
 					});
 
 					return true;
@@ -91,25 +88,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			updateContact: async (id, Contacts) => {
-				try {
-					const response = await fetch(`https://playground.4geeks.com/contact/${id}`, {
-						method: "PUT",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify(Contacts),
+			editContact: (id, contact) => {
+                const store = getStore()
+				console.log('Actualizando contacto:', contact);
+                fetch(`https://playground.4geeks.com/contact/agendas/${store.currentName}/contacts/${contact.id}`, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(contact)
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.json()
+                        }
+						throw new Error('Error al actuzaliar contacto')
+                    })
+                    .then((data) => {
+						// Si la respuesta es exitosa, actualizamos la lista de contactos
+						const updatedList = store.listContacts.map(existingContact => 
+							existingContact.id === id ? { ...existingContact, ...data } : existingContact
+						);
+				
+						// Actualizar el store con la nueva lista de contactos
+						setStore({ listContacts: updatedList });
+					})
+					.catch((error) => {
+						console.error("Error al actualizar el contacto:", error);
 					});
-					if (response.ok) {
-						getActions().fetchContacts();
-					}
-
-				} catch (error) {
-					console.error("Error updating contact:", error);
-				}
-			},
+				},
+			
+			
 			deleteContact: async (id) => {
 				try {
 					const store = getStore();
-					const currentName=store.currentName;
+					const currentName = store.currentName;
 					if (!store.currentName) {
 						throw new Error("El nombre de la agenda (currentName) está vacío");
 					}
@@ -129,9 +142,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error deleting contact:", error);
 				}
 			},
-		},
+		}
+
 	};
-};
+	
+}
+
 
 
 

@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 
 
 
+
 const AddContact = () => {
 
 
@@ -45,41 +46,64 @@ const AddContact = () => {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit}>
+            <h1 className="text-center">Add New Contact</h1>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={contacts.name}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={contacts.email}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={contacts.phone}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={contacts.address}
-          onChange={handleChange}
-        />
-        <button type="submit">Save</button>
-      </form>
+            <form className="container" onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="formGroupExampleInput1" className="form-label">Full Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="formGroupExampleInput1"
+                        placeholder="Full name"
+                        name="name"
+                        value={contacts.name}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="formGroupExampleInput2" className="form-label">Email</label>
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="formGroupExampleInput2"
+                        placeholder="Enter email"
+                        name="email"
+                        value={contacts.email}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="formGroupExampleInput3" className="form-label">Phone</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="formGroupExampleInput3"
+                        placeholder="Enter phone"
+                        name="phone"
+                        value={contacts.phone}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="formGroupExampleInput4" className="form-label">Address</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="formGroupExampleInput4"
+                        placeholder="Enter address"
+                        name="address"
+                        value={contacts.address}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mb-3">
+                    <button type="submit" className="btn btn-primary">Save Contact</button>
+                </div>
+            </form>
 
-      <Link to="/">Back to Contacs</Link>
-    </div>
+            <Link to="/" className="btn btn-secondary">Back to Contacts</Link>
+        </div>
   )
 
 }
