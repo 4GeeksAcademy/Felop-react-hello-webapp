@@ -13,7 +13,7 @@ const EditContact = () => {
     const [address, setAddress] = useState("");
 
     useEffect(() => {
-        // Buscar los datos del contacto por 'id'
+        
         const contact = store.listContacts.find(contact => contact.id===parseInt(id));
         if (contact) {
             setName(contact.name);
@@ -32,8 +32,8 @@ const EditContact = () => {
                phone,
                 address 
             };
-        await actions.editContact(id, updatedContact); // Asegúrate de que editContact esté implementado correctamente
-        navigate("/"); // Redirigir a la lista de contactos después de la actualización
+        await actions.editContact(id, updatedContact); 
+        navigate("/"); 
     };
 
 

@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			listContacts: [], // inicializacion de contactos vacia
+			listContacts: [], 
 			currentName: "felop",
 		},
 		actions: {
@@ -105,12 +105,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error('Error al actuzaliar contacto')
                     })
                     .then((data) => {
-						// Si la respuesta es exitosa, actualizamos la lista de contactos
+						
 						const updatedList = store.listContacts.map(existingContact => 
 							existingContact.id === id ? { ...existingContact, ...data } : existingContact
 						);
 				
-						// Actualizar el store con la nueva lista de contactos
+						
 						setStore({ listContacts: updatedList });
 					})
 					.catch((error) => {
